@@ -1,0 +1,20 @@
+
+# Django
+__pycache__/
+*.py[cod]
+*.sqlite3
+*.log
+*.pot
+*.pyc
+*.pyo
+*.db
+*.DS_Store
+*.swp
+.env
+
+# VS Code
+.vscode/
+
+# Python virtual environment (in any under git folder track )
+venv/
+env/
