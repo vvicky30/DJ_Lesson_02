@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'posts'  # here we register out 'posts' app here in setting.py by adding it to the installed app list
 ]
 
 MIDDLEWARE = [
