@@ -20,7 +20,7 @@ from django.urls import include
 from . import views   # importing views for giving path to web pages using urlpatterns(routes)
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls), # as here we can see there's already (bulit-in) path given to admin page of our web site .  // but before going to this path on browser we have to make superuser in admin.py file.
     path('', views.homepage ),     # as this will be like our main page , our web-site start from this page only , so no need to give path explicitly in quotes  
     path('about/',views.about), # as this will be our aboutpage available on  website-path/aboutpagepath like that :that's why giving path i.e. /about in quotes here 
                                  #ex: http://localhost:8000/about/    
