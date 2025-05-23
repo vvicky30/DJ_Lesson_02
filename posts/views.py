@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import Post # importing Post data model class from models.py file 
-
+#from django.http import HttpResponse  # this will used to echoes-in the corresponding slug of the post to the respective post-page  [for testing] 
 # Create your views here.
 def posts_list(request):
     #saving all posts-contents(Objects values) to posts-variable here
@@ -14,3 +14,7 @@ def posts_list(request):
             #now we have to showcase our actual posts with their contents on posts-page 
             # for that we have to call and save all contents of posts(objects) through acessing all objects of Post data model class  
             # and adding it as parameter to render [in dictionary type]
+def post_page(request, slug):
+    #return HttpResponse(slug)  # going to show echoed corresponding slug to post page [testing]
+    post= Post.objects.get(slug=slug)  # instead of one post we're going to show single post based of corresponding slug(going to match slug to the slug given as argument to the function)
+    return render(request, 'posts/post_page.html', {'post': post})
