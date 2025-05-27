@@ -121,6 +121,12 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')    
 ]   # here we're giving the 'static' folder's (which's reside on the base directory 'myproject') adress which's consisting of a css files  
 
+#here we're going to add MEDIA_URL just like what we did in the case of STATIC_URL
+MEDIA_URL = 'media/' # going to mention folder name where its going to saved media files i.e. images and videos etc
+#now just like we specify the path to static folder ; here we have to do the same in case of media folder
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # we will not create a media directory/folder here on upper-myproject like we did in the case of static folder 
+ #this media folder will create byitself once users uploading images to the site  
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
