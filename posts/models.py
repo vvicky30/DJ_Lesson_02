@@ -10,7 +10,9 @@ class Post(models.Model):
     body = models.TextField()  # this will be content or text area , here we're using textfield as model_reference_field type  
     slug = models.SlugField() # this will use to identify each post with user input slug(tag) which will be added at the end of url (this is compulsory)
     date = models.DateTimeField(auto_now_add=True) #auto_now_add=True means it will add system's datetime stamp when user added or saves post at web automatically. 
-
+    banner = models.ImageField(default = 'fallback.png', blank = True)#here we give option to user for uploading image file as reference picture while publishing post by using 'imagefield' model-refenrece field type.
+                            # here its allowed to be leave it blank by user while creating and publishing post as bydefault its will use 'fallback.png' as deafault reference picture for published post. 
+     
     def __str__(self):  # here we make instance function so during retrival it will show object's value or actual posts instead of number of posts 
         return self.title 
 
@@ -65,3 +67,5 @@ so after making instance str function in our data model class; we can now see ac
 >>> Post.objects.all()
 <QuerySet [<Post: My first post>, <Post: My second post>]>  # here we can see the objects values (posts) instead of numbers
 '''        
+# one thing should be clear that while handling media files like images we have to install pillow (which used for image manipulation)
+# cmd: pip install pillow
