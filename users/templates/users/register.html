@@ -6,4 +6,9 @@
 
 {% block content %}
    <h1>Regiter yourself , if you're new here</h1>
+   <form class= "form-with-validation" action="/users/register/" method = "post">
+      {% csrf_token %}
+      {{ form }}
+      <button class = "form-Submit">Submit</button>
+   </form>
 {% endblock %}
