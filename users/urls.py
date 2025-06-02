@@ -6,4 +6,5 @@ app_name = 'users'  # no django app name is 'users' for which it designated
 
 urlpatterns = [
     path('register/', views.register_view, name="register")# here we added the path/route to 'register_view' views which is in the views.py(dedicated to users app only) 
+                                                   # here named-url we added by name 'register'
 ]
