@@ -94,3 +94,22 @@ a:hover {
 .errorlist li::marker {
     content: '🚨 ';
 }
+
+.logout {
+    display: inline; /* Ensures the form appears inline like links */
+    margin: 0;
+    padding: 0;
+}
+
+.logout-button {
+    font-size: 2.5rem;
+    background: none;
+    border: none;
+    color: #81dbb8;
+    cursor: pointer;
+    padding: 0;
+}
+
+.logout-button:hover {
+    opacity: 0.85;
+}
