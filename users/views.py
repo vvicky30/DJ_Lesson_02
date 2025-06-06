@@ -1,14 +1,15 @@
 from django.shortcuts import render , redirect  # we need redirect function as once user registered succesfully then it will be redirected to the list_page
 # for user registation purpose we're now importing usercreationforms class from django authentication froms.
-from django.contrib.auth.forms import UserCreationForm
-
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+#here authentication form used for authenticate users during user-login like if they're already registered then user is authenticated to be loged-in 
+from django.contrib.auth import login # this subclass will allowed user to be logedin after from validation sucessfull
 # Create your views here. : here we are going to create views of users django app  here we are going to view register_view page 
 def register_view(request):
     if request.method == "POST": # it means if on web-page(register) if user able to submit its info then ultimately post method will be invoked.
         form = UserCreationForm(request.POST) # if that happen then we will save the submitted info of user (through invocation of post method) to the form-object of createuserform class by calling its constructor (will be same name as class) with argument as request.POSt(which will be the submitted content)
         if form.is_valid():  # validation: this will return true or false like form contains any info of user or not?
             # if yes its has user-info ; then it will be true and info will be saved
-            form.save()
+            login(request, form.save()) # in this way after validation from succesfully we're allowing user to be logged-in as well who registered themselves by submitting registration data; using that same registation data(that we get here through 'form.save()') we allowed them to be logged-in. 
             # so after saving user-info ; we will be redirecting user to list-page 
             return redirect("posts:list")  # here "posts:list" posts is app name(which we designated in urls.py of 'posts') whereas list is list page of it.
     else:
@@ -63,3 +64,15 @@ Summary of Conditions with Explanations:-
 
 ❌ Result: User stays on the registration page and sees validation errors.
 """
+#Here we're going to create login views with same approach as we did for register_views:
+
+def login_view(request):
+    if request.method == "POST":
+        form = AuthenticationForm(data = request.POST) # unlike usercreation form this authentication form will take variable number of data as in form of key and value [here key will be 'data' and data value we're passing here whatever user submit on login-page through request.POST method} 
+        if form.is_valid(): 
+        #after validating from ; and if its validated sucessfully then we allowed user to logged-in with user-data(same as entered by user on login-page) ; we can get data user data like this 'form.get_user()'
+            login(request, form.get_user())  
+            return redirect("posts:list")
+    else: 
+        form = AuthenticationForm()
+    return render(request, "users/login.html", {"form" : form})
