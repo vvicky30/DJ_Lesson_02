@@ -3,6 +3,7 @@ from django.shortcuts import render , redirect  # we need redirect function as o
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 #here authentication form used for authenticate users during user-login like if they're already registered then user is authenticated to be loged-in 
 from django.contrib.auth import login # this subclass will allowed user to be logedin after from validation sucessfull
+from django.contrib.auth import logout # this subclass will allowed user to be logout.
 # Create your views here. : here we are going to create views of users django app  here we are going to view register_view page 
 def register_view(request):
     if request.method == "POST": # it means if on web-page(register) if user able to submit its info then ultimately post method will be invoked.
@@ -76,3 +77,10 @@ def login_view(request):
     else: 
         form = AuthenticationForm()
     return render(request, "users/login.html", {"form" : form})
+
+#Here we're going to create logout views with same approach as we did for login_views:
+def logout_view(request):
+    if request.method == "POST": # it will be simple if user press log-out button which automatically invoked post-method 
+        logout(request) # after which user loded-out with this rquest imedietly 
+        return redirect("posts:list") # then redirect to list page of posts django application
+     
