@@ -72,8 +72,13 @@ def login_view(request):
         form = AuthenticationForm(data = request.POST) # unlike usercreation form this authentication form will take variable number of data as in form of key and value [here key will be 'data' and data value we're passing here whatever user submit on login-page through request.POST method} 
         if form.is_valid(): 
         #after validating from ; and if its validated sucessfully then we allowed user to logged-in with user-data(same as entered by user on login-page) ; we can get data user data like this 'form.get_user()'
-            login(request, form.get_user())  
-            return redirect("posts:list")
+            login(request, form.get_user())
+            
+            #in case we user press icon related to acess any page(like new-post page) but login-icon ; then it should be redirected to next?_request page for which user requested to acess page[here new-post page] by pressing new-post page icon ; once user logged-in(authorized)   
+            if 'next' in request.POST:
+                return redirect(request.POST.get('next'))
+            else: #else if user tryinng acess logic-page simply by pressing login-page icon then redirect user to post:lists once he/she logged-in     
+                return redirect("posts:list")
     else: 
         form = AuthenticationForm()
     return render(request, "users/login.html", {"form" : form})
