@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Post # importing Post data model class from models.py file 
 #from django.http import HttpResponse  # this will used to echoes-in the corresponding slug of the post to the respective post-page  [for testing] 
 from django.contrib.auth.decorators import login_required # here we import login_required decorator from django.contrib.auth [for preventing our post_new page to be view to unauthorized user]
+from . import forms #now here import out custom forms that we made in forms.py file 
 # Create your views here.
 def posts_list(request):
     #saving all posts-contents(Objects values) to posts-variable here
@@ -28,4 +29,19 @@ def post_page(request, slug):
 # [here in case after user loged-in , it will redirect to list page of posts djnago app ; as this was done due to the redirection to post:list mentioned in login_view in 'user' app]
 #[once user logged-in instead of redirecting user to post:list page we have to redirect for which user press the icon (which was here the icon of new-post page); we can do this by adding favourable logics to login_views in user-app and alligning it with login.html file]
 def post_new(request):
-    return render(request, 'posts/post_new.html')
+    if request.method == "POST":
+        form = forms.CreatePost(request.POST, request.FILES) # here in post_new page view we previewed our custom form which's 'CreatePost' [which allowed user to create new form and publish it on post_new page]
+                        # here along with post request we write files request as well ; because user with new post data words also going to submit the pictures or images while creating new post after submitting CreatePost form (which invoked request method Post )
+        if form.is_valid(): #if its valid post data word and image extension file submitting wise 
+            # then save new post that's published along with USer who published that new post 
+            newpost = form.save(commit=False) # means newpost form will not be saved completely ; as here commit is False flagged.
+            newpost.author  = request.user # new post won't be save completely untill unless its corresponding author will be fethed from request method of getting 'user'  
+            newpost.save() # after author fetching succesfully newpost will be saved
+            return redirect('posts:list')
+            
+             
+    
+    else:    
+        form = forms.CreatePost() # here in post_new page view we previewed our custom form which's 'CreatePost' [which allowed user to create new form and publish it on post_new page]
+    
+    return render(request, 'posts/post_new.html', { 'form': form })
