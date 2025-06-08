@@ -1,7 +1,10 @@
 from django.db import models
 # this models are data models used to model our data(data which 's published by user as end user on web app or data which can be retrived as per end user's request on web app)
 #this models that we import above from django.db is a super class through it constructor we can make our own data models class corresponding to categories of data that we're going to save on our db 
- 
+from django.contrib.auth.models import User # here we import user class from auth models of django because we're going to save post with its author-name which will be the user itself 
+# as here are two tables one post-table which stores data related to posts which has columns like tittle , body, slug(which will be act as primary-key if we want to made ) and author(wil be also known as 'user' in 'user' table )[this author will be acts as foriegn-key here which will be referencing to the user column(primary-key) of 'user'-table]     
+#user-table to post-table is "one to many" relation in this relational database ; as one user can publish many several post.  one post can't be authored by same user (for instance for now )
+
 #here we made data model corresponds to the posts' data with title and content box and datetime stamp of publishing and slug(which's nesscary data input which is used to pin point the post by adding inputed slug to the end of url link)
 # Create your models here. [here classes (our data models) will be acts as table in our db]
 
@@ -12,7 +15,9 @@ class Post(models.Model):
     date = models.DateTimeField(auto_now_add=True) #auto_now_add=True means it will add system's datetime stamp when user added or saves post at web automatically. 
     banner = models.ImageField(default = 'fallback.png', blank = True)#here we give option to user for uploading image file as reference picture while publishing post by using 'imagefield' model-refenrece field type.
                             # here its allowed to be leave it blank by user while creating and publishing post as bydefault its will use 'fallback.png' as deafault reference picture for published post. 
-     
+    author =  models.ForeignKey(User, on_delete=models.CASCADE,default=None)
+    # this "on_delete=models.CASCADE" here meaning if this author(foriegn-key) of post-table referencing to User(primary-key) in user-table // if this referencing relation broken any how by deleting that user from user table so posts which were authored by that user will also be deleted .
+    
     def __str__(self):  # here we make instance function so during retrival it will show object's value or actual posts instead of number of posts 
         return self.title 
 
