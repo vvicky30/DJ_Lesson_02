@@ -15,6 +15,11 @@ __pycache__/
 # VS Code
 .vscode/
 
+#you should ignore the staticfiles/ (or assets/, static_root/) folder created by collectstatic in Git.
+#If you named it assets/ or anything else:
+/assets/
+
 # Python virtual environment (in any under git folder track )
 venv/
 env/
+
