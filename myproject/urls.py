@@ -16,12 +16,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from django.urls import include
+from django.urls import include ,re_path # here import regular expression path ; as instead of adding media url in urlpattens list static and settings we're now going to use the regular expression path convention [recommanded for production-ready phase]
 from . import views   # importing views for giving path to web pages using urlpatterns(routes)
 from django.conf.urls.static import static  # for registering media folder into the url
 from django.conf import settings # here we import settings.py where we confidure it for media folder
-
+# this use during developement as well during production-phase as well :
+from django.views.static import serve
 urlpatterns = [
+    re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),  # regulatexpression path convention used for registering media_root
+    re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}), # regulatexpression path convention used for registering static_root
     path('admin/', admin.site.urls), # as here we can see there's already (bulit-in) path given to admin page of our web site .  // but before going to this path on browser we have to make superuser in admin.py file.
     path('', views.homepage ),     # as this will be like our main page , our web-site start from this page only , so no need to give path explicitly in quotes  
     path('about/',views.about), # as this will be our aboutpage available on  website-path/aboutpagepath like that :that's why giving path i.e. /about in quotes here 
@@ -33,6 +36,6 @@ urlpatterns = [
                                      
 ]
 # going to add in above urlpatterns
-urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT )
+#urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT )
 # adding here MEDIA_URL and giving path to the media folder same as we configured in the settings.py file 
 
