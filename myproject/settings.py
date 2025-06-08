@@ -11,7 +11,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
-import os
+# import os    # here we're now not going to use OS module to acess file through os system path pheripery 
+#because it's not recommanded when we're going to deploy production-ready web-app
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,9 +25,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-rhx5h83xw_o4lwmxjugop#@_9@cogvdb^9^rg^2(2$drph($+u'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
+#as in production-ready environment we don't want to run the security warning ; so we flagged it false 
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["localhost", "127.0.0.1"] # this specify that allowed user is local host or local-ip only  
 
 
 # Application definition
@@ -116,17 +118,26 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
-
+# again to making it production ready to deploy we have to make changes in specifying convention of the files path 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')    
-]   # here we're giving the 'static' folder's (which's reside on the base directory 'myproject') adress which's consisting of a css files  
-
 #here we're going to add MEDIA_URL just like what we did in the case of STATIC_URL
 MEDIA_URL = 'media/' # going to mention folder name where its going to saved media files i.e. images and videos etc
+#now make static _root file where our assets like admin info. configuration info, layout , meta data will be saved
+STATIC_ROOT = BASE_DIR / 'assets' # while running this command :>py manage.py  collectstatic ; automatically asset folder will be previewed within upper myproject folder , containing files like admin , css[in admin its contains icon svgs related to search , tooltag , alert, submit etc] . js which was common to many pages 
+
 #now just like we specify the path to static folder ; here we have to do the same in case of media folder
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # we will not create a media directory/folder here on upper-myproject like we did in the case of static folder 
+#MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # we will not create a media directory/folder here on upper-myproject like we did in the case of static folder 
  #this media folder will create byitself once users uploading images to the site  
+# the above method of specifying path to media media folder is not recommended for production ready application instead we do that just like we did of STATIC_ROOT
+MEDIA_ROOT= BASE_DIR / 'media' 
+#STATICFILES_DIRS = [
+#    os.path.join(BASE_DIR, 'static')    
+# ]   # here we're giving the 'static' folder's (which's reside on the base directory 'myproject') adress which's consisting of a css files  
+# similarly above specifying convention for the path of static files not recomended for production-ready project or app instead we specifying like this:
+STATICFILES_DIRS = [
+    BASE_DIR / 'static'
+] 
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
